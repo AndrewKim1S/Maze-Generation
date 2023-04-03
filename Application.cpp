@@ -22,6 +22,12 @@ Application::Application(int w, int h) {
 		createGrid();
 
 		dfsAlgorithm = DepthFirst(grid);
+
+		sf::Vector2f size(110, 30);
+		generateMazeButton = Button(width/30, height/50, size, "Generate Maze");
+		restartMazeButton = Button(width - width/30 - size.x, height/50, size, "Restart Maze");
+
+		HudVisibility = true;
 }
 
 Application::~Application() {
@@ -34,6 +40,10 @@ void Application::render() {
 				for(size_t k = 0; k < grid[i].size(); k++) {
 						grid[i][k].render(window);
 				}
+		}
+		if(HudVisibility) {
+				generateMazeButton.render(window);
+				restartMazeButton.render(window);
 		}
 		window->display();
 }
@@ -63,7 +73,29 @@ void Application::pollEvents() {
 										}
 										dfsAlgorithm.finished = false;
 										dfsAlgorithm.setGrid(grid);
+										appState = State::Idle;
+								} else if(event.key.code == sf::Keyboard::V) {
+										HudVisibility = false;
+								} 
+						case sf::Event::MouseButtonPressed:
+								{
+								if(event.mouseButton.button == sf::Mouse::Left) {
+										sf::Vector2i point = sf::Mouse::getPosition(*window);
+										if(generateMazeButton.clicked(point)) {
+												appState = State::Generate;
+										} else if(restartMazeButton.clicked(point)) {
+												for(int i = 0; i < numCellWidth; i++) {
+														for(int k = 0; k < numCellHeight; k++) {
+																grid[i][k].reset();
+														}
+												}
+												dfsAlgorithm.finished = false;
+												dfsAlgorithm.setGrid(grid);
+												appState = State::Idle;
+										}
 								}
+								}
+								break;
 						default:
 								break;
 				}

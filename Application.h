@@ -4,8 +4,10 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <vector>
+#include <cassert>
 #include "Cell.h"
 #include "DepthFirst.h"
+#include "Button.h"
 
 
 class Application {
@@ -35,7 +37,9 @@ class Application {
 
 				State appState;
 
-				Cell test;
+				Button generateMazeButton;
+				Button restartMazeButton;
+
 				std::vector<std::vector<Cell>> grid;
 				DepthFirst dfsAlgorithm;
 				int width;
@@ -46,4 +50,6 @@ class Application {
 
 				// default size 50;
 				int cellSize = 50;
+
+				bool HudVisibility;
 };

@@ -50,7 +50,7 @@ class Cell{
 				sf::RectangleShape shape;
 
 				sf::Color wallColor = sf::Color::White;
-				sf::Color cellColor = sf::Color(58, 68, 194);
+				sf::Color cellColor = sf::Color(70, 93, 142);
 
 				sf::Color cellBacktrackColor = sf::Color(255, 77, 77);
 				sf::Color cellSelectedColor = sf::Color(77, 255, 77);
