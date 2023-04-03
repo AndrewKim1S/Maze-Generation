@@ -26,7 +26,7 @@ class Application {
 				void update();
 				bool isRunning();
 				void createGrid();
-				void generateMaze();
+				void generateMazeDFS();
 
 		private:
 				sf::RenderWindow* window;

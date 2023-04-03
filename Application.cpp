@@ -53,9 +53,16 @@ void Application::pollEvents() {
 						case sf::Event::KeyPressed:
 								if(event.key.code == sf::Keyboard::Escape) {
 										window->close();
-								}
-								if(event.key.code == sf::Keyboard::G) {
+								}	else if(event.key.code == sf::Keyboard::G) {
 										appState = State::Generate;
+								} else if(event.key.code == sf::Keyboard::R) {
+										for(int i = 0; i < numCellWidth; i++) {
+												for(int k = 0; k < numCellHeight; k++) {
+														grid[i][k].reset();
+												}
+										}
+										dfsAlgorithm.finished = false;
+										dfsAlgorithm.setGrid(grid);
 								}
 						default:
 								break;
@@ -74,7 +81,7 @@ void Application::update() {
 								}
 						}
 						clock.restart();
-						generateMaze();
+						generateMazeDFS();
 						appState = State::Idle;
 						break;
 				default:
@@ -95,7 +102,7 @@ void Application::createGrid() {
 		}
 }
 
-void Application::generateMaze() {
+void Application::generateMazeDFS() {
 		while(!dfsAlgorithm.finished) {
 				window->pollEvent(event);
 				if(clock.getElapsedTime().asMilliseconds() > 50) {
