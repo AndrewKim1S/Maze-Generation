@@ -10,7 +10,7 @@ Application::Application(int w, int h) {
 		window->setPosition(sf::Vector2i(200, 75));
 		width = w;
 		height = h;
-		appState = State::Generate;
+		appState = State::Idle;
 
 		numCellWidth = width/cellSize;
 		numCellHeight = height/cellSize;
@@ -29,7 +29,7 @@ Application::~Application() {
 }
 
 void Application::render() {
-		window->clear(sf::Color(32, 32, 32));
+		window->clear(sf::Color(44, 105, 141));
 		for(size_t i = 0; i < grid.size(); i++) {
 				for(size_t k = 0; k < grid[i].size(); k++) {
 						grid[i][k].render(window);
@@ -99,7 +99,7 @@ void Application::generateMaze() {
 		while(!dfsAlgorithm.finished) {
 				window->pollEvent(event);
 				if(clock.getElapsedTime().asMilliseconds() > 50) {
-						window->clear(sf::Color(32, 32, 32));
+						window->clear(sf::Color(44, 105, 141));
 						dfsAlgorithm.generate();
 						dfsAlgorithm.render(window);
 						window->display();

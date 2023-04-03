@@ -28,6 +28,9 @@ class Cell{
 				void removeWall(int wall);
 				void reset();
 				sf::Vector2f getGridPos();
+				void setColor();
+				void setSelectedColor();
+				
 
 		private:
 				sf::Vector2f size;
@@ -47,10 +50,10 @@ class Cell{
 				sf::RectangleShape shape;
 
 				sf::Color wallColor = sf::Color::White;
-				sf::Color cellColor = sf::Color(32, 32, 32);
+				sf::Color cellColor = sf::Color(58, 68, 194);
 
-				sf::Color cellBacktrackColor;
-				sf::Color cellSelectedColor;
+				sf::Color cellBacktrackColor = sf::Color(255, 77, 77);
+				sf::Color cellSelectedColor = sf::Color(77, 255, 77);
 				
 				sf::Color cellStartColor;
 				sf::Color cellTargetColor;

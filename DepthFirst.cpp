@@ -30,6 +30,7 @@ void DepthFirst::generate() {
 		}
 
 		sf::Vector2f g = current->getGridPos();
+		current->setColor();
 
 		bool cellsFound = false;
 		
@@ -108,6 +109,8 @@ void DepthFirst::generate() {
 						default:
 								break;
 				}
+
+				adjacent->setSelectedColor();
 		}
 
 		/*std::cout << "current: " << current->getGridPos().x << ", " << current->getGridPos().y

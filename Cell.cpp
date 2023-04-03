@@ -132,8 +132,17 @@ void Cell::reset() {
 		visited = false;
 
 		state = State::Path;
+		shape.setFillColor(cellColor);
 }
 
 sf::Vector2f Cell::getGridPos() {
 		return gridPosition;
+}
+
+void Cell::setColor() {
+		shape.setFillColor(cellBacktrackColor);
+}
+
+void Cell::setSelectedColor() {
+		shape.setFillColor(cellSelectedColor);
 }
