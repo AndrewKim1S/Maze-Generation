@@ -8,6 +8,7 @@
 #include "Cell.h"
 #include "DepthFirst.h"
 #include "Button.h"
+#include "Menu.h"
 
 
 class Application {
@@ -36,6 +37,7 @@ class Application {
 				void update();
 				bool isRunning();
 				void createGrid();
+				void createUI();
 				void generateMazeDFS();
 
 		private:
@@ -48,6 +50,7 @@ class Application {
 
 				Button generateMazeDFSButton;
 				Button restartMazeButton;
+				Menu algorithmMenu;
 
 				std::vector<std::vector<Cell>> grid;
 				DepthFirst dfsAlgorithm;

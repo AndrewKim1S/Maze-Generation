@@ -22,12 +22,9 @@ Application::Application(int w, int h) {
 				grid[i].resize(static_cast<size_t>(numCellHeight));
 		}
 		createGrid();
+		createUI();
 
 		dfsAlgorithm = DepthFirst(grid);
-
-		sf::Vector2f size(110, 30);
-		generateMazeDFSButton = Button(width/30, height/50, size, "Iterative DFS");
-		restartMazeButton = Button(width - width/30 - size.x, height/50, size, "Restart Maze");
 
 		HudVisibility = true;
 }
@@ -44,7 +41,8 @@ void Application::render() {
 				}
 		}
 		if(HudVisibility) {
-				generateMazeDFSButton.render(window);
+				// generateMazeDFSButton.render(window);
+				algorithmMenu.render(window);
 				restartMazeButton.render(window);
 		}
 		window->display();
@@ -85,10 +83,13 @@ void Application::pollEvents() {
 								{
 								if(event.mouseButton.button == sf::Mouse::Left) {
 										sf::Vector2i point = sf::Mouse::getPosition(*window);
+										algorithmMenu.clicked(point);
 										if(generateMazeDFSButton.clicked(point)) {
 												appState = State::Generate;
 												algState = AlgorithmState::IterativeDFS;
-										} else if(restartMazeButton.clicked(point)) {
+										} 
+										
+										else if(restartMazeButton.clicked(point)) {
 												for(int i = 0; i < numCellWidth; i++) {
 														for(int k = 0; k < numCellHeight; k++) {
 																grid[i][k].reset();
@@ -119,6 +120,7 @@ void Application::update() {
 								}
 						}
 						clock.restart();
+						
 						switch(algState) {
 								case AlgorithmState::IterativeDFS:
 										generateMazeDFS();
@@ -144,6 +146,16 @@ void Application::createGrid() {
 						grid[i][k] = c;
 				}
 		}
+}
+
+void Application::createUI() {
+		sf::Vector2f size(110, 30);
+
+		generateMazeDFSButton = Button(width/30, height/50 + size.y , size, "Iterative DFS");
+		restartMazeButton = Button(width - width/30 - size.x, height/50, size, "Restart Maze");
+		
+		algorithmMenu = Menu(width/30, height/50, size, "Algorithms");
+		algorithmMenu.addButton(generateMazeDFSButton);
 }
 
 void Application::generateMazeDFS() {

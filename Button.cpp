@@ -31,7 +31,6 @@ Button::Button(int x, int y, sf::Vector2f s, std::string t) {
 }
 
 Button::~Button() {
-
 }
 
 void Button::render(sf::RenderTarget* target) {
