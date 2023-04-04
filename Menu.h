@@ -9,6 +9,8 @@
 
 class Menu {
 		public:
+				bool displayButtons;
+				
 				Menu();
 				Menu(int x, int y, sf::Vector2f s, std::string t);
 				~Menu();
@@ -27,5 +29,4 @@ class Menu {
 				sf::Font* font;
 				sf::Text text;
 
-				bool displayButtons;
 };

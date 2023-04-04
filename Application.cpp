@@ -84,7 +84,7 @@ void Application::pollEvents() {
 								if(event.mouseButton.button == sf::Mouse::Left) {
 										sf::Vector2i point = sf::Mouse::getPosition(*window);
 										algorithmMenu.clicked(point);
-										if(generateMazeDFSButton.clicked(point)) {
+										if(generateMazeDFSButton.clicked(point) && algorithmMenu.displayButtons) {
 												appState = State::Generate;
 												algState = AlgorithmState::IterativeDFS;
 										} 
