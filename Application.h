@@ -18,6 +18,14 @@ class Application {
 				Solve
 		};
 
+		enum AlgorithmState {
+				None,
+				IterativeDFS,
+				HuntKill,
+				Prims,
+				Kruskalls
+		};
+
 		public:
 				Application();
 				Application(int w, int h);
@@ -36,12 +44,14 @@ class Application {
 				sf::Clock clock;
 
 				State appState;
+				AlgorithmState algState;
 
-				Button generateMazeButton;
+				Button generateMazeDFSButton;
 				Button restartMazeButton;
 
 				std::vector<std::vector<Cell>> grid;
 				DepthFirst dfsAlgorithm;
+
 				int width;
 				int height;
 

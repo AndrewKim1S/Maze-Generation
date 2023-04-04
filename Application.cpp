@@ -10,7 +10,9 @@ Application::Application(int w, int h) {
 		window->setPosition(sf::Vector2i(200, 75));
 		width = w;
 		height = h;
+
 		appState = State::Idle;
+		algState = AlgorithmState::None;
 
 		numCellWidth = width/cellSize;
 		numCellHeight = height/cellSize;
@@ -24,7 +26,7 @@ Application::Application(int w, int h) {
 		dfsAlgorithm = DepthFirst(grid);
 
 		sf::Vector2f size(110, 30);
-		generateMazeButton = Button(width/30, height/50, size, "Generate Maze");
+		generateMazeDFSButton = Button(width/30, height/50, size, "Iterative DFS");
 		restartMazeButton = Button(width - width/30 - size.x, height/50, size, "Restart Maze");
 
 		HudVisibility = true;
@@ -42,7 +44,7 @@ void Application::render() {
 				}
 		}
 		if(HudVisibility) {
-				generateMazeButton.render(window);
+				generateMazeDFSButton.render(window);
 				restartMazeButton.render(window);
 		}
 		window->display();
@@ -63,8 +65,9 @@ void Application::pollEvents() {
 						case sf::Event::KeyPressed:
 								if(event.key.code == sf::Keyboard::Escape) {
 										window->close();
-								}	else if(event.key.code == sf::Keyboard::G) {
+								}	else if(event.key.code == sf::Keyboard::D) {
 										appState = State::Generate;
+										algState = AlgorithmState::IterativeDFS;
 								} else if(event.key.code == sf::Keyboard::R) {
 										for(int i = 0; i < numCellWidth; i++) {
 												for(int k = 0; k < numCellHeight; k++) {
@@ -74,15 +77,17 @@ void Application::pollEvents() {
 										dfsAlgorithm.finished = false;
 										dfsAlgorithm.setGrid(grid);
 										appState = State::Idle;
+										algState = AlgorithmState::None;
 								} else if(event.key.code == sf::Keyboard::V) {
-										HudVisibility = false;
+										HudVisibility = !HudVisibility;
 								} 
 						case sf::Event::MouseButtonPressed:
 								{
 								if(event.mouseButton.button == sf::Mouse::Left) {
 										sf::Vector2i point = sf::Mouse::getPosition(*window);
-										if(generateMazeButton.clicked(point)) {
+										if(generateMazeDFSButton.clicked(point)) {
 												appState = State::Generate;
+												algState = AlgorithmState::IterativeDFS;
 										} else if(restartMazeButton.clicked(point)) {
 												for(int i = 0; i < numCellWidth; i++) {
 														for(int k = 0; k < numCellHeight; k++) {
@@ -92,6 +97,7 @@ void Application::pollEvents() {
 												dfsAlgorithm.finished = false;
 												dfsAlgorithm.setGrid(grid);
 												appState = State::Idle;
+												algState = AlgorithmState::None;
 										}
 								}
 								}
@@ -113,7 +119,13 @@ void Application::update() {
 								}
 						}
 						clock.restart();
-						generateMazeDFS();
+						switch(algState) {
+								case AlgorithmState::IterativeDFS:
+										generateMazeDFS();
+										break;
+								default:
+										break;
+						}
 						appState = State::Idle;
 						break;
 				default:
