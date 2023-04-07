@@ -7,6 +7,7 @@
 #include <cassert>
 #include "Cell.h"
 #include "DepthFirst.h"
+#include "HuntKill.h"
 #include "Button.h"
 #include "Menu.h"
 
@@ -22,7 +23,7 @@ class Application {
 		enum AlgorithmState {
 				None,
 				IterativeDFS,
-				HuntKill,
+				HuntkillAlgo,
 				Prims,
 				Kruskalls
 		};
@@ -39,6 +40,7 @@ class Application {
 				void createGrid();
 				void createUI();
 				void generateMazeDFS();
+				void generateMazeHK();
 
 		private:
 				sf::RenderWindow* window;
@@ -49,11 +51,14 @@ class Application {
 				AlgorithmState algState;
 
 				Button generateMazeDFSButton;
+				Button generateMazeHKButton;
 				Button restartMazeButton;
 				Menu algorithmMenu;
 
 				std::vector<std::vector<Cell>> grid;
+				
 				DepthFirst dfsAlgorithm;
+				HuntKill hkAlgorithm;
 
 				int width;
 				int height;
