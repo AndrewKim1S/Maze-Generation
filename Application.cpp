@@ -138,9 +138,13 @@ void Application::pollEvents() {
 }
 
 void Application::update() {
+		// Check Application state
 		switch(appState) {
+				// Application is IDLE
 				case State::Idle:
 						break;
+
+				// Application is in generate state
 				case State::Generate:
 						for(size_t i = 0; i < grid.size(); i++) {
 								for(size_t k = 0; k < grid[i].size(); k++) {
@@ -149,13 +153,21 @@ void Application::update() {
 						}
 						clock.restart();
 						
+						// Check which algorithm is chosen
 						switch(algState) {
+								// Run Iterative Depth First Search
 								case AlgorithmState::IterativeDFS:
 										generateMazeDFS();
+										break;
+								// Run Hunt Kill Algorithm
+								case AlgorithmState::HuntkillAlgo:
+										generateMazeHK();
 										break;
 								default:
 										break;
 						}
+						// Reset states after algorithm finished
+						algState = AlgorithmState::None;
 						appState = State::Idle;
 						break;
 				default:
@@ -168,6 +180,7 @@ bool Application::isRunning() {
 }
 
 void Application::createGrid() {
+		// Create basic graph
 		for(int i = 0; i < numCellWidth; i++) {
 				for(int k = 0; k < numCellHeight; k++) {
 						Cell c(i*cellSize, k*cellSize, cellSize, i, k);
@@ -177,12 +190,15 @@ void Application::createGrid() {
 }
 
 void Application::createUI() {
+		// Create UI 
 		sf::Vector2f size(110, 30);
 
+		// Create Buttons
 		generateMazeDFSButton = Button(width/30, height/50 + size.y , size, "Iterative DFS");
 		generateMazeHKButton = Button(width/30, height/50 + 2*size.y, size, "Hunt Kill");
 		restartMazeButton = Button(width - width/30 - size.x, height/50, size, "Restart Maze");
 		
+		// Add Buttons to Menu list
 		algorithmMenu = Menu(width/30, height/50, size, "Algorithms");
 		algorithmMenu.addButton(generateMazeDFSButton);
 		algorithmMenu.addButton(generateMazeHKButton);
@@ -192,7 +208,7 @@ void Application::generateMazeDFS() {
 		while(!dfsAlgorithm.finished) {
 				window->pollEvent(event);
 				if(clock.getElapsedTime().asMilliseconds() > 50) {
-						window->clear(sf::Color(44, 105, 141));
+						window->clear(sf::Color(32, 32, 32));
 						dfsAlgorithm.generate();
 						dfsAlgorithm.render(window);
 						window->display();
@@ -203,5 +219,15 @@ void Application::generateMazeDFS() {
 }
 
 void Application::generateMazeHK() {
-
+		while(!hkAlgorithm.finished) {
+				window->pollEvent(event);
+				if(clock.getElapsedTime().asMilliseconds() > 50) {
+						window->clear(sf::Color(32, 32, 32));
+						hkAlgorithm.generate();
+						hkAlgorithm.render(window);
+						window->display();
+						clock.restart();
+				}
+		}
+		grid = hkAlgorithm.getUpdatedMaze();
 }
