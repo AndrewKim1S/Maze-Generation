@@ -8,6 +8,8 @@ HuntKill::HuntKill(){
 HuntKill::HuntKill(std::vector<std::vector<Cell>>& g) {
 		grid = g;
 		finished = false;
+		current = NULL;
+		adjacent = NULL;
 }
 
 HuntKill::~HuntKill() {

@@ -71,11 +71,11 @@ void Application::pollEvents() {
 								if(event.key.code == sf::Keyboard::Escape) {
 										window->close();
 								}	
-								// Key binding D generate DFS maze
+								/*// Key binding D generate DFS maze
 								else if(event.key.code == sf::Keyboard::D) {
 										appState = State::Generate;
 										algState = AlgorithmState::IterativeDFS;
-								} 
+								} */
 								// Key binding R resets maze
 								else if(event.key.code == sf::Keyboard::R) {
 										for(int i = 0; i < numCellWidth; i++) {
@@ -109,12 +109,21 @@ void Application::pollEvents() {
 										if(generateMazeDFSButton.clicked(point) && algorithmMenu.displayButtons) {
 												appState = State::Generate;
 												algState = AlgorithmState::IterativeDFS;
+												algorithmMenu.displayButtons = false;
 										} 
 
 										// Check whether the HK Button was pressed
 										else if(generateMazeHKButton.clicked(point) && algorithmMenu.displayButtons) {
 												appState = State::Generate;
 												algState = AlgorithmState::HuntkillAlgo;
+												algorithmMenu.displayButtons = false;
+										}
+
+										// Check whether the Prim Button was pressed
+										else if(generateMazePrimButton.clicked(point) && algorithmMenu.displayButtons) {
+												appState = State::Generate;
+												algState = AlgorithmState::PrimsAlgo;
+												algorithmMenu.displayButtons = false;
 										}
 										
 										// Check whether the Restart Button was pressed
@@ -168,6 +177,10 @@ void Application::update() {
 										generateMazeHK();
 										dfsAlgorithm.finished = true;
 										break;
+								case AlgorithmState::PrimsAlgo:
+										generateMazePrim();
+										dfsAlgorithm.finished = true;
+										hkAlgorithm.finished = true;
 								default:
 										break;
 						}
@@ -201,14 +214,17 @@ void Application::createUI() {
 		// Create Buttons
 		generateMazeDFSButton = Button(width/30, height/50 + size.y , size, "Iterative DFS");
 		generateMazeHKButton = Button(width/30, height/50 + 2*size.y, size, "Hunt Kill");
+		generateMazePrimButton = Button(width/30, height/50 + 3*size.y, size, "Prim's");
 		restartMazeButton = Button(width - width/30 - size.x, height/50, size, "Restart Maze");
 		
 		// Add Buttons to Menu list
 		algorithmMenu = Menu(width/30, height/50, size, "Algorithms");
 		algorithmMenu.addButton(generateMazeDFSButton);
 		algorithmMenu.addButton(generateMazeHKButton);
+		algorithmMenu.addButton(generateMazePrimButton);
 }
 
+// Generate Maze using Iterative Depth First Search Algorithm
 void Application::generateMazeDFS() {
 		while(!dfsAlgorithm.finished) {
 				window->pollEvent(event);
@@ -223,6 +239,7 @@ void Application::generateMazeDFS() {
 		grid = dfsAlgorithm.getUpdatedMaze();
 }
 
+// Generate Maze using Hunt-Kill Algorithm
 void Application::generateMazeHK() {
 		while(!hkAlgorithm.finished) {
 				window->pollEvent(event);
@@ -235,4 +252,9 @@ void Application::generateMazeHK() {
 				}
 		}
 		grid = hkAlgorithm.getUpdatedMaze();
+}
+
+// Generate Maze using Prim's Algorithm
+void Application::generateMazePrim() {
+		std::cout << "should get here" << std::endl;
 }

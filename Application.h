@@ -14,18 +14,20 @@
 
 class Application {
 		
+		// State of application
 		enum State {
 				Idle,
 				Generate,
 				Solve
 		};
 
+		// State of algorithm
 		enum AlgorithmState {
 				None,
 				IterativeDFS,
 				HuntkillAlgo,
-				Prims,
-				Kruskalls
+				PrimsAlgo,
+				KruskallsAlgo
 		};
 
 		public:
@@ -39,27 +41,37 @@ class Application {
 				bool isRunning();
 				void createGrid();
 				void createUI();
+
+				// Maze generation Algorithm functions
 				void generateMazeDFS();
 				void generateMazeHK();
+				void generateMazePrim();
 
 		private:
+				// sfml enteties
 				sf::RenderWindow* window;
 				sf::Event event;
 				sf::Clock clock;
 
+				// States
 				State appState;
 				AlgorithmState algState;
 
+				// Buttons & UI
 				Button generateMazeDFSButton;
 				Button generateMazeHKButton;
+				Button generateMazePrimButton;
 				Button restartMazeButton;
 				Menu algorithmMenu;
 
+				// Maze
 				std::vector<std::vector<Cell>> grid;
 				
+				// Maze generation Algorithms
 				DepthFirst dfsAlgorithm;
 				HuntKill hkAlgorithm;
 
+				// application settings
 				int width;
 				int height;
 
