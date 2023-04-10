@@ -40,6 +40,7 @@ void DepthFirst::generate() {
 				bool bot = false;
 				bool left = false;
 				bool right = false;
+
 				if(g.y-1 >= 0 && grid[g.x][g.y-1].visited == false) {
 						top = true;
 				}

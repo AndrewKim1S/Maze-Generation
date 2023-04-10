@@ -11,6 +11,7 @@ Application::Application(int w, int h) {
 		width = w;
 		height = h;
 
+		// 
 		appState = State::Idle;
 		algState = AlgorithmState::None;
 
@@ -125,6 +126,8 @@ void Application::pollEvents() {
 												}
 												dfsAlgorithm.finished = false;
 												dfsAlgorithm.setGrid(grid);
+												hkAlgorithm.finished = false;
+												hkAlgorithm.setGrid(grid);
 												appState = State::Idle;
 												algState = AlgorithmState::None;
 										}
@@ -158,10 +161,12 @@ void Application::update() {
 								// Run Iterative Depth First Search
 								case AlgorithmState::IterativeDFS:
 										generateMazeDFS();
+										hkAlgorithm.finished = true;
 										break;
 								// Run Hunt Kill Algorithm
 								case AlgorithmState::HuntkillAlgo:
 										generateMazeHK();
+										dfsAlgorithm.finished = true;
 										break;
 								default:
 										break;
