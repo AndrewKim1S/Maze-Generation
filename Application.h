@@ -8,6 +8,7 @@
 #include "Cell.h"
 #include "DepthFirst.h"
 #include "HuntKill.h"
+#include "Prims.h"
 #include "Button.h"
 #include "Menu.h"
 
@@ -70,6 +71,7 @@ class Application {
 				// Maze generation Algorithms
 				DepthFirst dfsAlgorithm;
 				HuntKill hkAlgorithm;
+				Prims pmAlgorithm;
 
 				// application settings
 				int width;
@@ -78,8 +80,9 @@ class Application {
 				int numCellWidth;
 				int numCellHeight;
 
-				// default size 50;
-				int cellSize = 50;
+				// default size 50
+				// 100 for testing
+				int cellSize = 100;
 
 				bool HudVisibility;
 };

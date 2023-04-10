@@ -41,16 +41,16 @@ void DepthFirst::generate() {
 				bool left = false;
 				bool right = false;
 
-				if(g.y-1 >= 0 && grid[g.x][g.y-1].visited == false) {
+				if(g.y-1 >= 0 && !grid[g.x][g.y-1].visited) {
 						top = true;
 				}
-				if(g.y+1 < grid[g.x].size() && grid[g.x][g.y+1].visited == false) {
+				if(g.y+1 < grid[g.x].size() && !grid[g.x][g.y+1].visited) {
 						bot = true;
 				}
-				if(g.x-1 >= 0 && grid[g.x-1][g.y].visited == false) {
+				if(g.x-1 >= 0 && !grid[g.x-1][g.y].visited) {
 						left = true;
 				}
-				if(g.x+1 < grid.size() && grid[g.x+1][g.y].visited == false) {
+				if(g.x+1 < grid.size() && !grid[g.x+1][g.y].visited) {
 						right = true;
 				}
 				if(!top && !bot && !left && !right) {

@@ -10,7 +10,7 @@ class DepthFirst {
 		public:
 				bool finished;
 
-				DepthFirst();
+DepthFirst();
 				DepthFirst(std::vector<std::vector<Cell>>& g);
 				~DepthFirst();
 				void generate();

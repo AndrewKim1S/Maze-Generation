@@ -11,9 +11,13 @@ Application::Application(int w, int h) {
 		width = w;
 		height = h;
 
-		// 
-		appState = State::Idle;
-		algState = AlgorithmState::None;
+		// For Testing
+		appState = State::Generate;
+		algState = AlgorithmState::PrimsAlgo;
+		
+		// For use in real application
+		// appState = State::Idle;
+		// algState = AlgorithmState::None;
 
 		numCellWidth = width/cellSize;
 		numCellHeight = height/cellSize;
@@ -28,6 +32,7 @@ Application::Application(int w, int h) {
 
 		hkAlgorithm = HuntKill(grid);
 		dfsAlgorithm = DepthFirst(grid);
+		pmAlgorithm = Prims(grid);
 
 		HudVisibility = true;
 }
@@ -85,6 +90,10 @@ void Application::pollEvents() {
 										}
 										dfsAlgorithm.finished = false;
 										dfsAlgorithm.setGrid(grid);
+										hkAlgorithm.finished = false;
+										hkAlgorithm.setGrid(grid);
+										pmAlgorithm.finished = false;
+										pmAlgorithm.setGrid(grid);
 										appState = State::Idle;
 										algState = AlgorithmState::None;
 								} 
@@ -137,6 +146,8 @@ void Application::pollEvents() {
 												dfsAlgorithm.setGrid(grid);
 												hkAlgorithm.finished = false;
 												hkAlgorithm.setGrid(grid);
+												pmAlgorithm.finished = false;
+												pmAlgorithm.setGrid(grid);
 												appState = State::Idle;
 												algState = AlgorithmState::None;
 										}
@@ -171,11 +182,13 @@ void Application::update() {
 								case AlgorithmState::IterativeDFS:
 										generateMazeDFS();
 										hkAlgorithm.finished = true;
+										pmAlgorithm.finished = true;
 										break;
 								// Run Hunt Kill Algorithm
 								case AlgorithmState::HuntkillAlgo:
 										generateMazeHK();
 										dfsAlgorithm.finished = true;
+										pmAlgorithm.finished = true;
 										break;
 								case AlgorithmState::PrimsAlgo:
 										generateMazePrim();
@@ -205,6 +218,10 @@ void Application::createGrid() {
 						grid[i][k] = c;
 				}
 		}
+
+		dfsAlgorithm.finished = false;
+		hkAlgorithm.finished = false;
+		pmAlgorithm.finished = false;
 }
 
 void Application::createUI() {
@@ -256,5 +273,15 @@ void Application::generateMazeHK() {
 
 // Generate Maze using Prim's Algorithm
 void Application::generateMazePrim() {
-		std::cout << "should get here" << std::endl;
+		while(!pmAlgorithm.finished) {
+				window->pollEvent(event);
+				if(clock.getElapsedTime().asMilliseconds() > 50) {
+						window->clear(sf::Color(32, 32, 32));
+						pmAlgorithm.generate();
+						pmAlgorithm.render(window);
+						window->display();
+						clock.restart();
+				}
+		}
+		grid = pmAlgorithm.getUpdatedMaze();
 }
