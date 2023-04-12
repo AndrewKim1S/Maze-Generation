@@ -275,7 +275,7 @@ void Application::generateMazeHK() {
 void Application::generateMazePrim() {
 		while(!pmAlgorithm.finished) {
 				window->pollEvent(event);
-				if(clock.getElapsedTime().asMilliseconds() > 50) {
+				if(clock.getElapsedTime().asMilliseconds() > 500) {
 						window->clear(sf::Color(32, 32, 32));
 						pmAlgorithm.generate();
 						pmAlgorithm.render(window);

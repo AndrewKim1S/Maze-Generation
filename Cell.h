@@ -30,6 +30,7 @@ class Cell{
 				sf::Vector2f getGridPos();
 				void setColor();
 				void setSelectedColor();
+				void setFrontierColor();
 				
 
 		private:
@@ -54,7 +55,8 @@ class Cell{
 
 				sf::Color cellBacktrackColor = sf::Color(255, 77, 77);
 				sf::Color cellSelectedColor = sf::Color(77, 255, 77);
-				
+				sf::Color cellFrontierColor = sf::Color(255, 181, 46);
+
 				sf::Color cellStartColor;
 				sf::Color cellTargetColor;
 

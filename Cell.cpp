@@ -146,3 +146,7 @@ void Cell::setColor() {
 void Cell::setSelectedColor() {
 		shape.setFillColor(cellSelectedColor);
 }
+
+void Cell::setFrontierColor() {
+		shape.setFillColor(cellFrontierColor);
+}
