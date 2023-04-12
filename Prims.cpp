@@ -180,6 +180,7 @@ bool Prims::withinFrontier(Cell* c) {
 
 void Prims::setGrid(std::vector<std::vector<Cell>>& g) {
 		grid = g;
+		inMaze = std::vector<Cell*>();
 }
 
 void Prims::render(sf::RenderTarget* target) {
