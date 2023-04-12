@@ -20,6 +20,7 @@ void Prims::generate() {
 
 		// If the generate algorithm has just started, choose a random cell to start with
 		if(frontier.size() == 0 && inMaze.size() == 0) {
+
 				// Choose a random starting cell
 				int x = rand() % static_cast<int>(grid.size());
 				int y = rand() % static_cast<int>(grid[0].size());
@@ -43,15 +44,17 @@ void Prims::generate() {
 						frontier[i]->setFrontierColor();
 				}
 				chosenOne->setColor();
-				
-				// Temporary
-				// finished = true;
 		} 
 
 		// If there are no more frontier cells and the number of cells in the maze is
 		// more than 0, we can conclude that the algorithm has finished
 		else if(frontier.size() == 0 && inMaze.size() > 0) {
 				finished = true;
+				for(size_t i = 0; i < grid.size(); i++) {
+						for(size_t k = 0; k < grid[i].size(); k++) {
+								grid[i][k].setColor();
+						}
+				}
 				return;
 		}
 
@@ -61,6 +64,9 @@ void Prims::generate() {
 				Cell* randFrontierCell;
 				int randIndex = rand() % static_cast<int>(frontier.size());
 				randFrontierCell = frontier[randIndex];
+				randFrontierCell->visited = true;
+				// std::cout << "randFrontierCell: " << randFrontierCell->getGridPos().x << ", " << 
+						// randFrontierCell->getGridPos().y << std::endl;
 				frontier.erase(frontier.begin() + randIndex);
 
 				int x = randFrontierCell->getGridPos().x;
@@ -83,13 +89,15 @@ void Prims::generate() {
 				}
 				
 				// Add cells into frontier;
-				if(x-1 >= 0 && !grid[x-1][y].visited) {
+				if(x-1 >= 0 && !grid[x-1][y].visited && !withinFrontier(&grid[x-1][y])) {
 						frontier.push_back(&grid[x-1][y]);
-				} if(x+1 < static_cast<int>(grid.size()) && !grid[x+1][y].visited) {
+				} if(x+1 < static_cast<int>(grid.size()) && !grid[x+1][y].visited && 
+						!withinFrontier(&grid[x+1][y])) {
 						frontier.push_back(&grid[x+1][y]);
-				} if(y-1 >= 0 && !grid[x][y-1].visited) {
+				} if(y-1 >= 0 && !grid[x][y-1].visited && !withinFrontier(&grid[x][y-1])) {
 						frontier.push_back(&grid[x][y-1]);
-				} if(y+1 < static_cast<int>(grid[x].size()) && !grid[x][y+1].visited) {
+				} if(y+1 < static_cast<int>(grid[x].size()) && !grid[x][y+1].visited && 
+						!withinFrontier(&grid[x][y+1])) {
 						frontier.push_back(&grid[x][y+1]);
 				}
 				
@@ -131,24 +139,44 @@ void Prims::generate() {
 						default:
 								break;
 				}
-
-				// Add the random Frontier cell into the maze
-				randFrontierCell->visited = true;
+				
+				// std::cout << "adjacentInMaze: " << adjacentInMaze->getGridPos().x << ", " << 
+						// adjacentInMaze->getGridPos().y << std::endl;
 
 				// Coloring
-				for(size_t i = 0; i < frontier.size(); i++) {
-						frontier[i]->setFrontierColor();
-				}
 				for(size_t i = 0; i < inMaze.size(); i++) {
 						inMaze[i]->setColor();
 				}
+				for(size_t i = 0; i < frontier.size(); i++) {
+						frontier[i]->setFrontierColor();
+				}
 				randFrontierCell->setSelectedColor();
-
+				randFrontierCell->visited = true;
 				inMaze.push_back(randFrontierCell);
 
 				
 		}
+		
+		// For testing purposes
+		/*std::cout << "------------Printing out Frontier Vector Contents------------" << std::endl;
+		for(size_t i = 0; i< frontier.size(); i++) {
+				std::cout << "Index: " << i << ", Grid: " << frontier[i]->getGridPos().x << ", " << frontier[i]->getGridPos().y <<
+						", visited status: " << frontier[i]->visited << std::endl; 
+		}
+		std::cout << "\n\n" << std::endl;*/
 }
+
+bool Prims::withinFrontier(Cell* c) {
+		sf::Vector2f pos = c->getGridPos();
+		for(size_t i = 0; i < frontier.size(); i++) {
+				sf::Vector2f checkPos = frontier[i]->getGridPos();
+				if(pos.x == checkPos.x && pos.y == checkPos.y) {
+						return true;
+				}
+		}
+		return false;
+}
+
 
 void Prims::setGrid(std::vector<std::vector<Cell>>& g) {
 		grid = g;

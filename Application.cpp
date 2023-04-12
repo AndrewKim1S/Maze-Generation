@@ -12,12 +12,12 @@ Application::Application(int w, int h) {
 		height = h;
 
 		// For Testing
-		appState = State::Generate;
-		algState = AlgorithmState::PrimsAlgo;
+		// appState = State::Generate;
+		// algState = AlgorithmState::PrimsAlgo;
 		
 		// For use in real application
-		// appState = State::Idle;
-		// algState = AlgorithmState::None;
+		appState = State::Idle;
+		algState = AlgorithmState::None;
 
 		numCellWidth = width/cellSize;
 		numCellHeight = height/cellSize;
@@ -275,7 +275,7 @@ void Application::generateMazeHK() {
 void Application::generateMazePrim() {
 		while(!pmAlgorithm.finished) {
 				window->pollEvent(event);
-				if(clock.getElapsedTime().asMilliseconds() > 500) {
+				if(clock.getElapsedTime().asMilliseconds() > 50) {
 						window->clear(sf::Color(32, 32, 32));
 						pmAlgorithm.generate();
 						pmAlgorithm.render(window);

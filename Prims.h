@@ -13,6 +13,7 @@ class Prims {
 				Prims(std::vector<std::vector<Cell>>& g);
 				~Prims();
 				void generate();
+				bool withinFrontier(Cell* c);
 				void setGrid(std::vector<std::vector<Cell>> & g);
 				void render(sf::RenderTarget* target);
 				std::vector<std::vector<Cell>> getUpdatedMaze();

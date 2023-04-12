@@ -82,7 +82,7 @@ class Application {
 
 				// default size 50
 				// 100 for testing
-				int cellSize = 100;
+				int cellSize = 50;
 
 				bool HudVisibility;
 };
