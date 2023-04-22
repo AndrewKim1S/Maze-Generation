@@ -9,6 +9,7 @@
 #include "DepthFirst.h"
 #include "HuntKill.h"
 #include "Prims.h"
+#include "Kruskals.h"
 #include "Button.h"
 #include "Menu.h"
 
@@ -28,7 +29,7 @@ class Application {
 				IterativeDFS,
 				HuntkillAlgo,
 				PrimsAlgo,
-				KruskallsAlgo
+				KruskalsAlgo
 		};
 
 		public:
@@ -47,6 +48,7 @@ class Application {
 				void generateMazeDFS();
 				void generateMazeHK();
 				void generateMazePrim();
+				void generateMazeKruskal();
 
 		private:
 				// sfml enteties
@@ -62,7 +64,9 @@ class Application {
 				Button generateMazeDFSButton;
 				Button generateMazeHKButton;
 				Button generateMazePrimButton;
+				Button generateMazeKruskalButton;
 				Button restartMazeButton;
+				Button exitApplicationButton;
 				Menu algorithmMenu;
 
 				// Maze
@@ -72,6 +76,7 @@ class Application {
 				DepthFirst dfsAlgorithm;
 				HuntKill hkAlgorithm;
 				Prims pmAlgorithm;
+				Kruskals klAlgorithm;
 
 				// application settings
 				int width;

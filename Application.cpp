@@ -33,6 +33,7 @@ Application::Application(int w, int h) {
 		hkAlgorithm = HuntKill(grid);
 		dfsAlgorithm = DepthFirst(grid);
 		pmAlgorithm = Prims(grid);
+		klAlgorithm = Kruskals(grid);
 
 		HudVisibility = true;
 }
@@ -51,6 +52,7 @@ void Application::render() {
 		if(HudVisibility) {
 				algorithmMenu.render(window);
 				restartMazeButton.render(window);
+				exitApplicationButton.render(window);
 		}
 		window->display();
 }
@@ -94,6 +96,8 @@ void Application::pollEvents() {
 										hkAlgorithm.setGrid(grid);
 										pmAlgorithm.finished = false;
 										pmAlgorithm.setGrid(grid);
+										klAlgorithm.finished = false;
+										klAlgorithm.setGrid(grid);
 										appState = State::Idle;
 										algState = AlgorithmState::None;
 								} 
@@ -134,6 +138,13 @@ void Application::pollEvents() {
 												algState = AlgorithmState::PrimsAlgo;
 												algorithmMenu.displayButtons = false;
 										}
+
+										// Check whether the Kruskal Button was pressed
+										else if(generateMazeKruskalButton.clicked(point) && algorithmMenu.displayButtons) {
+												appState = State::Generate;
+												algState = AlgorithmState::KruskalsAlgo;
+												algorithmMenu.displayButtons = false;
+										}
 										
 										// Check whether the Restart Button was pressed
 										else if(restartMazeButton.clicked(point)) {
@@ -148,8 +159,13 @@ void Application::pollEvents() {
 												hkAlgorithm.setGrid(grid);
 												pmAlgorithm.finished = false;
 												pmAlgorithm.setGrid(grid);
+												klAlgorithm.finished = false;
+												klAlgorithm.setGrid(grid);
 												appState = State::Idle;
 												algState = AlgorithmState::None;
+										}
+										else if(exitApplicationButton.clicked(point)) {
+												window->close();
 										}
 								}
 								}
@@ -183,17 +199,26 @@ void Application::update() {
 										generateMazeDFS();
 										hkAlgorithm.finished = true;
 										pmAlgorithm.finished = true;
+										klAlgorithm.finished = true;
 										break;
 								// Run Hunt Kill Algorithm
 								case AlgorithmState::HuntkillAlgo:
 										generateMazeHK();
 										dfsAlgorithm.finished = true;
 										pmAlgorithm.finished = true;
+										klAlgorithm.finished = true;
 										break;
 								case AlgorithmState::PrimsAlgo:
 										generateMazePrim();
 										dfsAlgorithm.finished = true;
 										hkAlgorithm.finished = true;
+										klAlgorithm.finished = true;
+										break;
+								case AlgorithmState::KruskalsAlgo:
+										generateMazeKruskal();
+										dfsAlgorithm.finished = true;
+										hkAlgorithm.finished = true;
+										pmAlgorithm.finished = true;
 								default:
 										break;
 						}
@@ -232,13 +257,18 @@ void Application::createUI() {
 		generateMazeDFSButton = Button(width/30, height/50 + size.y , size, "Iterative DFS");
 		generateMazeHKButton = Button(width/30, height/50 + 2*size.y, size, "Hunt Kill");
 		generateMazePrimButton = Button(width/30, height/50 + 3*size.y, size, "Prim's");
+		generateMazeKruskalButton = Button(width/30, height/50 +4*size.y, size, "Kruskal's");
 		restartMazeButton = Button(width - width/30 - size.x, height/50, size, "Restart Maze");
+
+		sf::Vector2f sizeExitButton(50, 30);
+		exitApplicationButton = Button(width - 5*sizeExitButton.x, height/50, sizeExitButton, "Exit");
 		
 		// Add Buttons to Menu list
 		algorithmMenu = Menu(width/30, height/50, size, "Algorithms");
 		algorithmMenu.addButton(generateMazeDFSButton);
 		algorithmMenu.addButton(generateMazeHKButton);
 		algorithmMenu.addButton(generateMazePrimButton);
+		algorithmMenu.addButton(generateMazeKruskalButton);
 }
 
 // Generate Maze using Iterative Depth First Search Algorithm
@@ -284,4 +314,19 @@ void Application::generateMazePrim() {
 				}
 		}
 		grid = pmAlgorithm.getUpdatedMaze();
+}
+
+// Generate Maze using Kruskal's Algorithm
+void Application::generateMazeKruskal() {
+		while(!klAlgorithm.finished) {
+				window->pollEvent(event);
+				if(clock.getElapsedTime().asMilliseconds() > 50) {
+						window->clear(sf::Color(32, 32, 32));
+						klAlgorithm.generate();
+						klAlgorithm.render(window);
+						window->display();
+						clock.restart();
+				}
+		}
+		grid = klAlgorithm.getUpdatedMaze();
 }

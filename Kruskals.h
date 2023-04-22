@@ -1,18 +1,17 @@
 #pragma once
 
 #include <iostream>
-#include <stack>
 #include "Cell.h"
 
 
-class DepthFirst {
+class Kruskals {
 
 		public:
 				bool finished;
 
-				DepthFirst();
-				DepthFirst(std::vector<std::vector<Cell>>& g);
-				~DepthFirst();
+				Kruskals();
+				Kruskals(std::vector<std::vector<Cell>>& g);
+				~Kruskals();
 				void generate();
 				void setGrid(std::vector<std::vector<Cell>>& g);
 				void printForTesting();
@@ -20,6 +19,5 @@ class DepthFirst {
 				std::vector<std::vector<Cell>> getUpdatedMaze();
 
 		private:
-				std::stack<Cell*> queue;
 				std::vector<std::vector<Cell>> grid;
 };

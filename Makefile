@@ -5,7 +5,7 @@ CFLAGS = -Wall -g
 
 LIBS = -lsfml-window -lsfml-graphics -lsfml-system
 
-SRCS = main.cpp Application.cpp Cell.cpp DepthFirst.cpp Button.cpp Menu.cpp HuntKill.cpp Prims.cpp
+SRCS = main.cpp Application.cpp Cell.cpp DepthFirst.cpp Button.cpp Menu.cpp HuntKill.cpp Prims.cpp Kruskals.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
